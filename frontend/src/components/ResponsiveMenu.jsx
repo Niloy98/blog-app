@@ -2,7 +2,6 @@ import React from "react";
 import { FaUserCircle } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { Button } from "./ui/button";
-import UserLogo from "../assets/user.jpg";
 import { Avatar, AvatarImage } from "./ui/avatar";
 import { useSelector } from "react-redux";
 
@@ -19,7 +18,7 @@ const ResponsiveMenu = ({ openNav, setOpenNav, logoutHandler }) => {
         <div className="flex items-center justify-start gap-3">
           {user ? (
             <Avatar className="w-14 h-14">
-              <AvatarImage src={user.profilePic || UserLogo} size={50} />
+              <AvatarImage src={user.profilePic || '/user.jpg'} size={50} />
             </Avatar>
           ) : (
             <FaUserCircle size={50} className="" />

@@ -8,7 +8,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "sonner";
 import { useDispatch, useSelector } from "react-redux";
-import auth from "../assets/auth.jpg"
+import auth from "../../public/auth.jpg";
 import { setLoading, setUser } from "@/store/authSlice";
 
 function Login() {

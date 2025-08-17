@@ -1,5 +1,5 @@
 import React from "react";
-import heroImg from "../assets/blog2.png";
+import heroImg from "../../public/blog2.png";
 import { Button } from "./ui/button";
 import { Link } from "react-router-dom";
 

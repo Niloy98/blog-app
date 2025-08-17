@@ -1,5 +1,4 @@
 import React from 'react';
-import aboutImg from "../assets/About-blog.avif"
 
 const About = () => {
   return (
@@ -18,7 +17,7 @@ const About = () => {
         {/* Image + Text Section */}
         <div className="mt-12 grid md:grid-cols-2 gap-10 items-center">
           <img
-            src={aboutImg}
+            src={'/About-blog.avif'}
             alt="Blog Illustration"
             className="w-full h-72 object-cover rounded-2xl shadow-md"
           />

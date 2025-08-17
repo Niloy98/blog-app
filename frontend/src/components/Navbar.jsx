@@ -1,5 +1,4 @@
 import { Link, NavLink, useNavigate } from "react-router-dom";
-import Logo from "../assets/logo.png";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { ChartColumnBig, LogOut, Search, User } from "lucide-react";
@@ -70,7 +69,7 @@ const Navbar = () => {
           <Link to="/">
             <div className="flex gap-2 items-center">
               <img
-                src={Logo}
+                src={'/logo.png'}
                 alt=""
                 className="w-7 h-7 md:w-10 md:h-10 dark:invert"
               />

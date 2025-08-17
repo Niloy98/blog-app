@@ -7,7 +7,7 @@ import { Eye, EyeOff, Loader2 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "sonner";
-import auth from "../assets/auth.jpg";
+import auth from "../../public/auth.jpg";
 import { setLoading } from "@/store/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 
