@@ -112,7 +112,8 @@ const token = await jwt.sign(
     .status(200)
     .cookie("token", token, {
         maxAge: 1 * 24 * 60 * 60 * 1000,
-        httpsOnly: true,
+        httpOnly: true,
+        secure: true,
         sameSite: "strict",
       })
     .json({
