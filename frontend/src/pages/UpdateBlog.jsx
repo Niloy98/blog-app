@@ -44,6 +44,7 @@ const UpdateBlog = () => {
 
   const [loading, setLoading] = useState(false);
   const [publish, setPublish] = useState(false);
+  const token = JSON.parse(sessionStorage.getItem('token'))
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -82,6 +83,7 @@ const UpdateBlog = () => {
         formData,
         {
           headers: {
+            Authorization: `Bearer ${token}`,
             "Content-Type": "multipart/form-data",
           },
           withCredentials: true,
@@ -125,7 +127,12 @@ const UpdateBlog = () => {
     try {
       const res = await axios.delete(
         `${import.meta.env.VITE_API_URL}/api/v1/blog/delete/${id}`,
-        { withCredentials: true }
+        { 
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          withCredentials: true 
+        }
       );
       if (res.data.success) {
         const updatedBlogData = blog.filter((blogItem) => blogItem?._id !== id);

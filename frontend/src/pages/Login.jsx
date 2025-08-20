@@ -46,6 +46,7 @@ function Login() {
       if (response.data.success) {
         dispatch(setUser(response.data.loggedInUser))
         navigate('/')
+        sessionStorage.setItem('token', JSON.stringify(response.data.token))
         toast.success(response.data.message)
       }
     } catch (error) {

@@ -39,7 +39,8 @@ const Navbar = () => {
       );
       if (res.data.success) {
         dispatch(setUser(null));
-        navigate("/");
+        sessionStorage.clear();
+        navigate("/login");
         toast.success(res.data.message);
       }
     } catch (error) {

@@ -29,6 +29,7 @@ const CommentBox = ({ selectedBlog }) => {
   const [editedContent, setEditedContent] = useState("");
 
   const dispatch = useDispatch();
+      const token = JSON.parse(sessionStorage.getItem('token'))
 
   const handleReplyClick = (commentId) => {
     setActiveReplyId(activeReplyId === commentId ? null : commentId);
@@ -48,7 +49,8 @@ const CommentBox = ({ selectedBlog }) => {
     const getAllCommentsOfBlog = async () => {
       try {
         const res = await axios.get(
-          `http://localhost:3000/api/v1/comment/${selectedBlog._id}/comment/all`
+          `${import.meta.env.VITE_API_URL}
+/api/v1/comment/${selectedBlog._id}/comment/all`
         );
         const data = res.data.comments;
         dispatch(setComment(data));
@@ -62,10 +64,12 @@ const CommentBox = ({ selectedBlog }) => {
   const commentHandler = async () => {
     try {
       const res = await axios.post(
-        `http://localhost:3000/api/v1/comment/${selectedBlog._id}/create`,
+        `${import.meta.env.VITE_API_URL}
+/api/v1/comment/${selectedBlog._id}/create`,
         { content },
         {
           headers: {
+            Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
           },
           withCredentials: true,
@@ -100,8 +104,12 @@ const CommentBox = ({ selectedBlog }) => {
   const deleteComment = async (commentId) => {
     try {
       const res = await axios.delete(
-        `http://localhost:3000/api/v1/comment/${commentId}/delete`,
+        `${import.meta.env.VITE_API_URL}
+/api/v1/comment/${commentId}/delete`,
         {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
           withCredentials: true,
         }
       );
@@ -123,11 +131,13 @@ const CommentBox = ({ selectedBlog }) => {
   const editCommentHandler = async (commentId) => {
     try {
       const res = await axios.put(
-        `http://localhost:3000/api/v1/comment/${commentId}/edit`,
+        `${import.meta.env.VITE_API_URL}
+/api/v1/comment/${commentId}/edit`,
         { content: editedContent },
         {
           withCredentials: true,
           headers: {
+            Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
           },
         }
@@ -151,8 +161,12 @@ const CommentBox = ({ selectedBlog }) => {
   const likeCommentHandler = async (commentId) => {
     try {
       const res = await axios.get(
-        `http://localhost:3000/api/v1/comment/${commentId}/like`,
+        `${import.meta.env.VITE_API_URL}
+/api/v1/comment/${commentId}/like`,
         {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
           withCredentials: true,
         }
       );

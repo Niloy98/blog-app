@@ -10,12 +10,18 @@ const TotalProperty = () => {
   const [totalComments, setTotalComments] = useState(0);
   const [totalLikes, setTotalLikes] = useState(0);
   const dispatch = useDispatch();
+  const token = JSON.parse(sessionStorage.getItem('token'))
 
   const getOwnBlog = async () => {
     try {
       const res = await axios.get(
         `${import.meta.env.VITE_API_URL}/api/v1/blog/get-own-blogs`,
-        { withCredentials: true }
+        { 
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          withCredentials: true 
+        }
       );
       if (res.data.success) {
         dispatch(setBlog(res.data.blogs));
@@ -28,8 +34,13 @@ const TotalProperty = () => {
   const getTotalComments = async () => {
     try {
       const res = await axios.get(
-        `${import.meta.env.VITE_API_URL}/api/v1/comment/my-blogs/comments`,
-        { withCredentials: true }
+        `${import.meta.env.VITE_API_URL}/api/v1/comment/your-blog/comments`,
+        { 
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          withCredentials: true 
+        }
       );
       if (res.data.success) {
         setTotalComments(res.data.totalComments);
@@ -43,7 +54,12 @@ const TotalProperty = () => {
     try {
       const res = await axios.get(
         `${import.meta.env.VITE_API_URL}/api/v1/blog/my-blogs/likes`,
-        { withCredentials: true }
+        { 
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          withCredentials: true 
+        }
       );
       if (res.data.success) {
         setTotalLikes(res.data.totalLikes);

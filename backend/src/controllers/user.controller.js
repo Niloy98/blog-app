@@ -120,6 +120,7 @@ const token = await jwt.sign(
       success: true,
         message: `Welcome back ${user.firstName}`,
         loggedInUser,
+        token
     })
   } catch (error) {
     console.log("Server error in register", error);

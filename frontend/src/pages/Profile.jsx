@@ -70,11 +70,13 @@ const Profile = () => {
 
     try {
       setLoading(true);
+      const token = JSON.parse(sessionStorage.getItem('token'))
       const res = await axios.put(
         `${import.meta.env.VITE_API_URL}/api/v1/auth/profile/update`,
         formData,
         {
           headers: {
+            Authorization: `Bearer ${token}`,
             "Content-Type": "multipart/form-data",
           },
           withCredentials: true,

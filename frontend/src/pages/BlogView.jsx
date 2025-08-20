@@ -37,12 +37,18 @@ const BlogView = () => {
 
   const likeOrDislikeHandler = async () => {
     try {
+      const token = JSON.parse(sessionStorage.getItem('token'))
       const action = liked ? "dislike" : "like";
       const res = await axios.get(
         `${import.meta.env.VITE_API_URL}/api/v1/blog/${
           selectedBlog?._id
         }/${action}`,
-        { withCredentials: true }
+        { 
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          withCredentials: true 
+        }
       );
       if (res.data.success) {
         const updatedLikes = liked ? blogLike - 1 : blogLike + 1;

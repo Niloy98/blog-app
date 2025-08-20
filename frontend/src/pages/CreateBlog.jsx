@@ -33,12 +33,14 @@ const CreateBlog = () => {
 
   const createBlogHandler = async () => {
     try {
+      const token = JSON.parse(sessionStorage.getItem('token'))
       setLoading(true);
       const res = await axios.post(
         `${import.meta.env.VITE_API_URL}/api/v1/blog`,
         { title, category },
         {
           headers: {
+            Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
           },
           withCredentials: true,

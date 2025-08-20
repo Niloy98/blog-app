@@ -19,9 +19,17 @@ const Comments = () => {
 
   const getTotalComments = async () => {
     try {
+      const token = JSON.parse(sessionStorage.getItem('token'))
+      console.log("hi");
+      
       const res = await axios.get(
         `${import.meta.env.VITE_API_URL}/api/v1/comment/your-blog/comments`,
-        { withCredentials: true }
+        { 
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          withCredentials: true 
+        }
       );
       if (res.data.success) {
         setAllComments(res.data.comments);
