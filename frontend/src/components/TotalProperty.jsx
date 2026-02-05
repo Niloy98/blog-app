@@ -78,38 +78,43 @@ const TotalProperty = () => {
   const stats = [
     {
       title: "Total Views",
-      value: "24.8K",
+      value: "24.8K", 
       icon: Eye,
+      color: "text-blue-500",
     },
     {
       title: "Total Blogs",
       value: blog.length,
       icon: BarChart3,
+      color: "text-purple-500",
     },
     {
       title: "Comments",
       value: totalComments,
       icon: MessageSquare,
+      color: "text-green-500",
     },
     {
       title: "Likes",
       value: totalLikes,
       icon: ThumbsUp,
+      color: "text-red-500",
     },
   ];
+
   return (
-    <div className="md:p-10 p-4">
-      <div className="flex flex-col md:flex-row justify-around gap-3 md:gap-7">
+    <div className="px-4 py-8 md:px-0 max-w-6xl mx-auto">
+      <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {stats.map((stat) => (
-          <Card key={stat.title} className="w-full dark:bg-gray-800">
+          <Card key={stat.title} className="dark:bg-gray-800 shadow-sm hover:shadow-md transition-shadow">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">
+              <CardTitle className="text-xs md:text-sm font-medium text-muted-foreground">
                 {stat.title}
               </CardTitle>
-              <stat.icon className="h-4 w-4 text-muted-foreground" />
+              <stat.icon className={`h-4 w-4 ${stat.color}`} />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{stat.value}</div>
+              <div className="text-xl md:text-2xl font-bold">{stat.value}</div>
             </CardContent>
           </Card>
         ))}

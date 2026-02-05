@@ -64,11 +64,12 @@ function Signup() {
   };
 
   return (
-    <div className="flex items-center min-h-screen md:pt-14 md:h-[740px] overflow-y-hidden xl:h-screen">
-      <div className="hidden lg:flex lg:w-1/2 lg:h-screen xl:w-3/5">
-        <img src={auth} alt="" className="h-[700px]" />
+    <div className="flex items-center min-h-screen w-full">
+      <div className="hidden lg:flex lg:w-1/2 h-screen">
+        <img src={auth} alt="" className="h-full w-full object-cover" />
       </div>
-      <div className="flex justify-center items-center flex-1 px-3 md:px-0">
+      
+      <div className="flex justify-center items-center flex-1 w-full p-4">
         <Card className="w-full max-w-md p-6 shadow-lg rounded-2xl dark:bg-gray-800 dark:border-gray-600">
           <CardHeader>
             <CardTitle>
@@ -83,7 +84,7 @@ function Signup() {
           <CardContent>
             <form className="space-y-4" onSubmit={handleSubmit}>
               <div className="flex gap-3">
-                <div>
+                <div className="w-1/2">
                   <Label className="py-1">First Name</Label>
                   <Input
                     type="text"
@@ -95,7 +96,7 @@ function Signup() {
                   />
                 </div>
 
-                <div>
+                <div className="w-1/2">
                   <Label className="py-1">Last Name</Label>
                   <Input
                     type="text"

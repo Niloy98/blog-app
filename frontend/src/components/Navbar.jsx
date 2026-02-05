@@ -22,6 +22,7 @@ import { LiaCommentSolid } from "react-icons/lia";
 import { HiMenuAlt1, HiMenuAlt3 } from "react-icons/hi";
 import { useState } from "react";
 import { ResponsiveMenu } from ".";
+
 const Navbar = () => {
   const { user } = useSelector((state) => state.auth);
   const { theme } = useSelector((state) => state.theme);
@@ -48,11 +49,20 @@ const Navbar = () => {
     }
   };
 
-  const handleSearch = (e) => {
+  const handleInputChange = (e) => {
+    const query = e.target.value;
+    setSearchTerm(query); 
+
+    if (query.trim().length >= 3) {
+      navigate(`/search?q=${encodeURIComponent(query)}`);
+    } else if (query.trim().length === 0) {
+    }
+  };
+
+  const handleSearchSubmit = (e) => {
     e.preventDefault();
     if (searchTerm.trim() !== "") {
       navigate(`/search?q=${encodeURIComponent(searchTerm)}`);
-      setSearchTerm("");
     }
   };
 
@@ -60,155 +70,209 @@ const Navbar = () => {
     setOpenNav(!openNav);
   };
 
-  // console.log(user);
-
   return (
-    <div className="py-2 fixed w-full dark:bg-gray-800 dark:border-b-gray-600 border-b-gray-300 border-2 bg-white">
-      <div className="max-w-7xl mx-auto flex justify-between items-center px-4 md:px-0">
-        {/* logo section */}
-        <div className="flex gap-7 items-center">
-          <Link to="/">
-            <div className="flex gap-2 items-center">
-              <img
-                src={'/logo.png'}
-                alt=""
-                className="w-7 h-7 md:w-10 md:h-10 dark:invert"
-              />
-              <h1 className="font-bold text-3xl md:text-4xl">Blog</h1>
+    <div className="fixed w-full top-0 z-50 bg-white dark:bg-gray-800 border-b-2 border-gray-300 dark:border-gray-600 shadow-sm">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between items-center h-16 lg:h-20">
+          <div className="flex items-center gap-3 sm:gap-4 lg:gap-7 flex-1">
+            <Link to="/" className="flex-shrink-0">
+              <div className="flex gap-2 items-center">
+                <img
+                  src={'/logo.png'}
+                  alt="MindGarden Logo"
+                  className="w-7 h-7 sm:w-8 sm:h-8 md:w-10 md:h-10 dark:invert"
+                />
+                <h1 className="font-bold text-xl sm:text-2xl md:text-3xl lg:text-4xl whitespace-nowrap">
+                  MindGarden
+                </h1>
+              </div>
+            </Link>
+
+            <div className="relative hidden lg:block flex-1 max-w-md">
+              <form onSubmit={handleSearchSubmit} className="relative">
+                <Input
+                  type="text"
+                  placeholder="Search (type 3+ letters...)"
+                  className="border border-gray-700 dark:bg-gray-900 bg-gray-300 w-full pr-12"
+                  value={searchTerm}
+                  onChange={handleInputChange} 
+                />
+                <Button 
+                  type="submit"
+                  className="absolute right-0 top-0 h-full"
+                  size="sm"
+                >
+                  <Search className="w-4 h-4" />
+                </Button>
+              </form>
             </div>
-          </Link>
-          <div className="relative hidden md:block">
-            <Input
-              type="text"
-              placeholder="Search"
-              className="border border-gray-700 dark:bg-gray-900 bg-gray-300 w-[300px] hidden md:block"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-            <Button className="absolute right-0 top-0" onClick={handleSearch}>
-              <Search />
-            </Button>
           </div>
-        </div>
-        {/* nav section */}
-        <nav className="flex md:gap-7 gap-4 items-center">
-          <ul className="hidden md:flex gap-7 items-center text-xl font-semibold">
-            <NavLink
-              to={"/"}
-              className={({ isActive }) =>
-                `block py-2 pr-4 pl-3 duration-200 
-                ${ isActive
-                    ? "text-gray-900 dark:text-white"
-                    : "text-gray-500 dark:text-gray-500"
-                } border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 hover:text-orange-700 lg:p-0`
-              }
+
+          <nav className="flex items-center gap-2 sm:gap-3 lg:gap-7">
+            <ul className="hidden lg:flex gap-5 xl:gap-7 items-center text-base xl:text-xl font-semibold">
+              <NavLink
+                to={"/"}
+                className={({ isActive }) =>
+                  `block py-2 px-1 duration-200 transition-colors
+                  ${isActive
+                      ? "text-gray-900 dark:text-white"
+                      : "text-gray-500 dark:text-gray-400"
+                  } hover:text-orange-700 dark:hover:text-orange-500`
+                }
+              >
+                <li>Home</li>
+              </NavLink>
+              <NavLink
+                to={"/blogs"}
+                className={({ isActive }) =>
+                  `block py-2 px-1 duration-200 transition-colors
+                  ${isActive
+                      ? "text-gray-900 dark:text-white"
+                      : "text-gray-500 dark:text-gray-400"
+                  } hover:text-orange-700 dark:hover:text-orange-500`
+                }
+              >
+                <li>Blogs</li>
+              </NavLink>
+              <NavLink
+                to={"/about"}
+                className={({ isActive }) =>
+                  `block py-2 px-1 duration-200 transition-colors
+                  ${isActive
+                      ? "text-gray-900 dark:text-white"
+                      : "text-gray-500 dark:text-gray-400"
+                  } hover:text-orange-700 dark:hover:text-orange-500`
+                }
+              >
+                <li>About</li>
+              </NavLink>
+            </ul>
+
+            {/* Theme Toggle Button */}
+            <Button 
+              onClick={() => dispatch(toggleTheme())} 
+              size="icon"
+              variant="ghost"
+              className="flex-shrink-0"
+              aria-label="Toggle theme"
             >
-              <li>Home</li>
-            </NavLink>
-            <NavLink
-              to={"/blogs"}
-              className={({ isActive }) =>
-                `block py-2 pr-4 pl-3 duration-200 
-                ${ isActive
-                    ? "text-gray-900 dark:text-white"
-                    : "text-gray-500 dark:text-gray-500"
-                } border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 hover:text-orange-700 lg:p-0`
-              }
-            >
-              <li>Blogs</li>
-            </NavLink>
-            <NavLink
-              to={"/about"}
-              className={({ isActive }) =>
-                `block py-2 pr-4 pl-3 duration-200 
-                ${ isActive
-                    ? "text-gray-900 dark:text-white"
-                    : "text-gray-500 dark:text-gray-500"
-                } border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 hover:text-orange-700 lg:p-0`
-              }
-            >
-              <li>About</li>
-            </NavLink>
-          </ul>
-          <div className="flex">
-            <Button onClick={() => dispatch(toggleTheme())} className="">
-              {theme === "light" ? <FaMoon /> : <FaSun />}
+              {theme === "light" ? <FaMoon className="w-4 h-4 sm:w-5 sm:h-5" /> : <FaSun className="w-4 h-4 sm:w-5 sm:h-5" />}
             </Button>
+
             {user ? (
-              <div className="ml-7 flex gap-3 items-center">
-                <DropdownMenu className="">
+              <div className="flex items-center gap-2 sm:gap-3">
+                <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Avatar className="cursor-pointer">
-                      <AvatarImage src={user.profilePic} />
-                      <AvatarFallback>
+                    <Avatar className="cursor-pointer w-8 h-8 sm:w-9 sm:h-9 lg:w-10 lg:h-10">
+                      <AvatarImage src={user.profilePic} alt={`${user.firstName} ${user.lastName}`} />
+                      <AvatarFallback className="text-sm">
                         {user?.firstName[0] + user?.lastName[0]}
                       </AvatarFallback>
                     </Avatar>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent className="w-50 dark:bg-gray-800">
+                  <DropdownMenuContent className="w-56 dark:bg-gray-800" align="end">
                     <DropdownMenuLabel>My Account</DropdownMenuLabel>
                     <DropdownMenuSeparator />
                     <DropdownMenuGroup>
                       <DropdownMenuItem
                         onClick={() => navigate("/dashboard/profile")}
+                        className="cursor-pointer"
                       >
-                        <User />
+                        <User className="mr-2 h-4 w-4" />
                         <span>Profile</span>
                       </DropdownMenuItem>
                       <DropdownMenuItem
                         onClick={() => navigate("/dashboard/your-blog")}
+                        className="cursor-pointer"
                       >
-                        <ChartColumnBig />
+                        <ChartColumnBig className="mr-2 h-4 w-4" />
                         <span>Your Blog</span>
                       </DropdownMenuItem>
                       <DropdownMenuItem
                         onClick={() => navigate("/dashboard/comments")}
+                        className="cursor-pointer"
                       >
-                        <LiaCommentSolid />
+                        <LiaCommentSolid className="mr-2 h-4 w-4" />
                         <span>Comments</span>
                       </DropdownMenuItem>
                       <DropdownMenuItem
                         onClick={() => navigate("/dashboard/write-blog")}
+                        className="cursor-pointer"
                       >
-                        <FaRegEdit />
+                        <FaRegEdit className="mr-2 h-4 w-4" />
                         <span>Write Blog</span>
                       </DropdownMenuItem>
                     </DropdownMenuGroup>
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem onClick={logoutHandler}>
-                      <LogOut />
+                    <DropdownMenuItem onClick={logoutHandler} className="cursor-pointer">
+                      <LogOut className="mr-2 h-4 w-4" />
                       <span>Log out</span>
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
-                {/* </Link> */}
-                <Button className="hidden md:block" onClick={logoutHandler}>
+
+                <Button 
+                  className="hidden lg:block" 
+                  onClick={logoutHandler}
+                  size="sm"
+                >
                   Logout
                 </Button>
               </div>
             ) : (
-              <div className="ml-7 md:flex gap-2 ">
+              <div className="flex items-center gap-2">
                 <Link to={"/login"}>
-                  <Button>Login</Button>
+                  <Button size="sm" className="text-xs sm:text-sm">
+                    Login
+                  </Button>
                 </Link>
-                <Link className="hidden md:block" to={"/signup"}>
-                  <Button>Signup</Button>
+                <Link className="hidden sm:block" to={"/signup"}>
+                  <Button size="sm" className="text-xs sm:text-sm">
+                    Signup
+                  </Button>
                 </Link>
               </div>
             )}
-          </div>
-          {openNav ? (
-            <HiMenuAlt3 onClick={toggleNav} className="w-7 h-7 md:hidden" />
-          ) : (
-            <HiMenuAlt1 onClick={toggleNav} className="w-7 h-7 md:hidden" />
-          )}
-        </nav>
-        <ResponsiveMenu
-          openNav={openNav}
-          setOpenNav={setOpenNav}
-          logoutHandler={logoutHandler}
-        />
+
+            <button
+              onClick={toggleNav}
+              className="lg:hidden p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+              aria-label="Toggle navigation menu"
+            >
+              {openNav ? (
+                <HiMenuAlt3 className="w-6 h-6 sm:w-7 sm:h-7" />
+              ) : (
+                <HiMenuAlt1 className="w-6 h-6 sm:w-7 sm:h-7" />
+              )}
+            </button>
+          </nav>
+        </div>
+
+        <div className="lg:hidden pb-3 pt-2">
+          <form onSubmit={handleSearchSubmit} className="relative">
+            <Input
+              type="text"
+              placeholder="Search..."
+              className="border border-gray-700 dark:bg-gray-900 bg-gray-300 w-full pr-12"
+              value={searchTerm}
+              onChange={handleInputChange} 
+            />
+            <Button 
+              type="submit"
+              className="absolute right-0 top-0 h-full"
+              size="sm"
+            >
+              <Search className="w-4 h-4" />
+            </Button>
+          </form>
+        </div>
       </div>
+
+      <ResponsiveMenu
+        openNav={openNav}
+        setOpenNav={setOpenNav}
+        logoutHandler={logoutHandler}
+      />
     </div>
   );
 };

@@ -98,7 +98,6 @@ const Profile = () => {
     <div className="pt-20 md:ml-[320px] md:h-screen">
       <div className="max-w-6xl mx-auto mt-8 ">
         <Card className=" flex md:flex-row flex-col gap-10 p-6 md:p-10 dark:bg-gray-800 mx-4 md:mx-0">
-          {/* image section */}
           <div className="flex flex-col items-center justify-center md:w-[400px]">
             <Avatar className="w-40 h-40 border-2">
               <AvatarImage src={user?.profilePic || userLogo} />
@@ -121,7 +120,6 @@ const Profile = () => {
               </Link>
             </div>
           </div>
-          {/* info section */}
           <div>
             <h1 className="font-bold text-center md:text-start text-4xl mb-7">
               Welcome {user?.firstName}!

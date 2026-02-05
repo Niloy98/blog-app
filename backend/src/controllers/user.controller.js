@@ -64,38 +64,40 @@ const registerUser = async (req, res) => {
 const loginUser = async (req, res) => {
   const { email, password } = req.body;
   try {
+    
     if(!email){
-        return res.status(400).json({
-          success: false,
-          message: "email is required"
-        })
-      }
+      return res.status(400).json({
+        success: false,
+        message: "email is required"
+      })
+    }
     if(!password){
-        return res.status(400).json({
-          success: false,
-          message: "Password is required"
-        })
-      }
-          
-      const user = await User.findOne({ email });
-
+      return res.status(400).json({
+        success: false,
+        message: "Password is required"
+      })
+    }
+    
+    const user = await User.findOne({ email });
+    
     if (!user)
       return res.status(400).json({
-        success: false,
-        message: "User doesn't exists! Please register first",
-      });
+    success: false,
+    message: "User doesn't exists! Please register first",
+  });
+  
+  const checkPasswordMatch = await bcrypt.compare(
+    password,
+    user.password
+  );
+  
+  if (!checkPasswordMatch)
+    return res.status(400).json({
+  success: false,
+  message: "Incorrect password! Please try again",
+});
 
-    const checkPasswordMatch = await bcrypt.compare(
-      password,
-      user.password
-    );
-
-    if (!checkPasswordMatch)
-      return res.status(400).json({
-        success: false,
-        message: "Incorrect password! Please try again",
-      });
-
+console.log("ji");
 const token = await jwt.sign(
       {
         userId: user._id,

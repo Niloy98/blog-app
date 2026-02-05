@@ -23,12 +23,20 @@ const CreateBlog = () => {
   const [loading, setLoading] = useState(false);
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("");
+  const [isCustomCategory, setIsCustomCategory] = useState(false); 
+  
   const { blog } = useSelector((store) => store.blog);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const getSelectedCategory = (value) => {
-    setCategory(value);
+    if (value === "Custom") {
+      setIsCustomCategory(true);
+      setCategory(""); 
+    } else {
+      setIsCustomCategory(false);
+      setCategory(value);
+    }
   };
 
   const createBlogHandler = async () => {
@@ -61,7 +69,7 @@ const CreateBlog = () => {
   };
 
   return (
-    <div className="p-4 md:pr-20 h-screen md:ml-[320px] pt-20">
+    <div className="p-19 md:pr-20 h-screen md:ml-[320px] pt-28">
       <Card className="md:p-10 p-4 dark:bg-gray-800">
         <h1 className="text-2xl font-bold">Lets create blog</h1>
         <p className="">
@@ -98,9 +106,23 @@ const CreateBlog = () => {
                   <SelectItem value="Blogging">Blogging</SelectItem>
                   <SelectItem value="Photography">Photography</SelectItem>
                   <SelectItem value="Cooking">Cooking</SelectItem>
+                  <SelectItem value="Custom">Other</SelectItem>
                 </SelectGroup>
               </SelectContent>
             </Select>
+
+            {isCustomCategory && (
+              <div className="mt-2">
+                <Label className="py-1">Custom Category Name</Label>
+                <Input
+                  type="text"
+                  placeholder="Enter your custom category"
+                  value={category}
+                  onChange={(e) => setCategory(e.target.value)}
+                  className="bg-white dark:bg-gray-700 mt-1"
+                />
+              </div>
+            )}
           </div>
           <div className="flex gap-2">
             <Button className="" disabled={loading} onClick={createBlogHandler}>

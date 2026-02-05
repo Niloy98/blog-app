@@ -6,27 +6,6 @@ import axios from "axios";
 import { setBlog } from "@/store/blogSlice";
 import { BlogCardList, Newsletter } from ".";
 
-const tags = [
-  {
-    category: "Blogging",
-  },
-  {
-    category: "Web Development",
-  },
-  {
-    category: "Digital Marketing",
-  },
-  {
-    category: "Cooking",
-  },
-  {
-    category: "Photography",
-  },
-  {
-    category: "Sports",
-  },
-];
-
 const RecentBlog = () => {
   const { blog } = useSelector((store) => store.blog);
   const [category, setCategory] = useState("");
@@ -52,55 +31,26 @@ const RecentBlog = () => {
   }, []);
 
   return (
-    <div className="bg-gray-100 dark:bg-gray-800 pb-10">
-      <div className="max-w-6xl mx-auto  flex flex-col space-y-4 items-center">
-        <h1 className="text-4xl font-bold pt-10 ">Recent Blogs</h1>
-        <hr className=" w-24 text-center border-2 border-red-500 rounded-full" />
+    <div className="bg-gray-100 dark:bg-gray-800 py-10 md:py-16">
+      <div className="max-w-7xl mx-auto flex flex-col space-y-4 items-center px-4 mb-10 md:mb-12">
+        <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold">
+          Recent Blogs
+        </h1>
+        <hr className="w-20 sm:w-24 text-center border-2 border-red-500 rounded-full" />
       </div>
-      <div className="max-w-7xl mx-auto flex gap-6">
-        <div>
-          <div className="mt-10 px-4 md:px-0">
-            {blog?.slice(0, 4)?.map((blog, index) => {
-              return <BlogCardList key={index} blog={blog} />;
-            })}
-          </div>
-        </div>
-        <div className="bg-white hidden md:block dark:bg-gray-700 w-[350px] p-5 rounded-md mt-10">
-          <h1 className="text-2xl font-semibold">Popular categories</h1>
-          <div className="my-5 flex flex-wrap gap-3">
-            {tags.map((item, index) => {
-              return (
-                <Badge
-                  onClick={() => navigate(`/search?q=${item.category}`)}
-                  key={index}
-                  className="cursor-pointer"
-                >
-                  {item.category}
-                </Badge>
-              );
-            })}
-          </div>
-          
-          <Newsletter />
 
-          <div className="mt-7">
-            <h2 className="text-xl font-semibold mb-3">Suggested Blogs</h2>
-            <ul className="space-y-3">
-              {[
-                "10 Tips to Master React",
-                "Understanding Tailwind CSS",
-                "Improve SEO in 2025",
-              ].map((title, idx) => (
-                <li
-                  key={idx}
-                  className="text-sm dark:text-gray-100  hover:underline cursor-pointer"
-                >
-                  {title}
-                </li>
-              ))}
-            </ul>
-          </div>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-6 lg:gap-8">
+          {blog?.slice(0, 12)?.map((blog, index) => {
+            return <BlogCardList key={index} blog={blog} />;
+          })}
         </div>
+
+        {blog?.length === 0 && (
+          <div className="text-center text-gray-500 dark:text-gray-400 py-10">
+            <p className="text-lg">No blogs available at the moment.</p>
+          </div>
+        )}
       </div>
     </div>
   );

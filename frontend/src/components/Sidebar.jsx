@@ -5,24 +5,37 @@ import { NavLink } from 'react-router-dom'
 import { FaRegEdit } from 'react-icons/fa';
 
 const Sidebar = () => {
+  const getLinkClasses = ({ isActive }) => {
+    return `flex items-center gap-3 font-semibold cursor-pointer p-3 px-4 rounded-xl w-full transition-all duration-200 
+    ${isActive 
+      ? "bg-gray-900 text-white dark:bg-white dark:text-gray-900 shadow-md" 
+      : "text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-gray-200"
+    }`;
+  };
+
   return (
-    <div className='hidden mt-15 fixed md:block border-r-2 dark:bg-gray-800 bg-white border-gray-300 dark:border-gray-600 0 w-[300px] p-10 space-y-2 h-screen z-10'>
-      <div className='text-center pt-10 px-3 space-y-2'>
-        <NavLink to='/dashboard/profile' className={({ isActive }) => `text-2xl  ${isActive ? "bg-gray-800 dark:bg-gray-900 text-gray-200" : "bg-transparent"} flex items-center gap-2 font-bold cursor-pointer p-3 rounded-2xl w-full`}>
-          <SquareUser />
-          <span>Profile</span>
+    <div className='hidden md:block fixed left-0 top-0 h-screen w-[300px] border-r-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 z-40 pt-24 px-6 overflow-y-auto'>
+      
+      <div className='flex flex-col space-y-3'>
+
+        <NavLink to='/dashboard/profile' className={getLinkClasses}>
+          <SquareUser className="w-5 h-5" />
+          <span className="text-lg">Profile</span>
         </NavLink>
-        <NavLink to='/dashboard/your-blog' className={({ isActive }) => `text-2xl  ${isActive ? "bg-gray-800 dark:bg-gray-900 text-gray-200" : "bg-transparent"} flex items-center gap-2 font-bold cursor-pointer p-3 rounded-2xl w-ful`}>
-          <ChartColumnBig />
-          <span>Your Blogs</span>
+
+        <NavLink to='/dashboard/your-blog' className={getLinkClasses}>
+          <ChartColumnBig className="w-5 h-5" />
+          <span className="text-lg">Your Blogs</span>
         </NavLink>
-        <NavLink to='/dashboard/comments' className={({ isActive }) => `text-2xl  ${isActive ? "bg-gray-800 dark:bg-gray-900 text-gray-200" : "bg-transparent"} flex items-center gap-2 font-bold cursor-pointer p-3 rounded-2xl w-ful`}>
-          <LiaCommentSolid />
-          <span>Comments</span>
+
+        <NavLink to='/dashboard/comments' className={getLinkClasses}>
+          <LiaCommentSolid className="w-6 h-6" />
+          <span className="text-lg">Comments</span>
         </NavLink>
-        <NavLink to='/dashboard/write-blog' className={({ isActive }) => `text-2xl  ${isActive ? "bg-gray-800 dark:bg-gray-900 text-gray-200" : "bg-transparent"} flex items-center gap-2 font-bold cursor-pointer p-3 rounded-2xl w-ful`}>
-          <FaRegEdit/>
-          <span>Create Blog</span>
+
+        <NavLink to='/dashboard/write-blog' className={getLinkClasses}>
+          <FaRegEdit className="w-5 h-5"/>
+          <span className="text-lg">Create Blog</span>
         </NavLink>
       </div>
 

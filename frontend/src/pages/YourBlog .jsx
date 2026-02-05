@@ -1,3 +1,4 @@
+
 import { Card } from "@/components/ui/card";
 import React, { useEffect } from "react";
 import {
@@ -22,6 +23,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { setBlog } from "@/store/blogSlice";
+import { Badge } from "@/components/ui/badge"; 
 
 const YourBlog = () => {
   const navigate = useNavigate();
@@ -56,7 +58,6 @@ const YourBlog = () => {
       }
       // console.log(res.data.message);
     } catch (error) {
-      console.log(error);
       toast.error("something went error");
     }
   };
@@ -68,7 +69,6 @@ const YourBlog = () => {
     const date = new Date(blog[index].createdAt);
     const formattedDate = date.toLocaleDateString("en-GB");
     return formattedDate;
-    // console.log("formattedDate", date);
   };
 
   return (
@@ -81,6 +81,7 @@ const YourBlog = () => {
               <TableRow>
                 <TableHead>Title</TableHead>
                 <TableHead>Category</TableHead>
+                <TableHead>Status</TableHead> 
                 <TableHead>Date</TableHead>
                 <TableHead className="text-center">Action</TableHead>
               </TableRow>
@@ -102,6 +103,15 @@ const YourBlog = () => {
                     </h1>
                   </TableCell>
                   <TableCell>{item.category}</TableCell>
+                  
+                  <TableCell>
+                    {item.isPublished ? (
+                      <Badge className="bg-green-600 hover:bg-green-700">Published</Badge>
+                    ) : (
+                      <Badge variant="secondary" className="bg-yellow-500/10 text-yellow-600 hover:bg-yellow-500/20">Draft</Badge>
+                    )}
+                  </TableCell>
+
                   <TableCell className="">{formatDate(index)}</TableCell>
                   <TableCell className="text-center">
                     <DropdownMenu>

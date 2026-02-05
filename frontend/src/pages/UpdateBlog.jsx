@@ -30,7 +30,19 @@ const UpdateBlog = () => {
 
   const selectBlog = blog.find((blog) => blog._id === id);
 
-  const [content, setContent] = useState(selectBlog.description);
+  const validCategories = [
+    "Web Development",
+    "Digital Marketing",
+    "Blogging",
+    "Photography",
+    "Cooking",
+  ];
+
+  const [content, setContent] = useState(selectBlog?.description || "");
+
+  const [isCustomCategory, setIsCustomCategory] = useState(
+    selectBlog?.category && !validCategories.includes(selectBlog.category)
+  );
 
   const [blogData, setBlogData] = useState({
     title: selectBlog?.title,
@@ -38,6 +50,7 @@ const UpdateBlog = () => {
     description: content,
     category: selectBlog?.category,
   });
+  
   const [previewThumbnail, setPreviewThumbnail] = useState(
     selectBlog?.thumbnail
   );
@@ -56,7 +69,15 @@ const UpdateBlog = () => {
   };
 
   const selectCategory = (value) => {
-    setBlogData({ ...blogData, category: value });
+    if (value === "Custom") {
+      setIsCustomCategory(true);
+      if (validCategories.includes(blogData.category)) {
+          setBlogData({ ...blogData, category: "" });
+      }
+    } else {
+      setIsCustomCategory(false);
+      setBlogData({ ...blogData, category: value });
+    }
   };
 
   const selectThumbnail = (e) => {
@@ -75,7 +96,10 @@ const UpdateBlog = () => {
     formData.append("subtitle", blogData.subtitle);
     formData.append("description", content);
     formData.append("category", blogData.category);
-    formData.append("file", blogData.thumbnail);
+    if(blogData.thumbnail) {
+         formData.append("file", blogData.thumbnail);
+    }
+   
     try {
       setLoading(true);
       const res = await axios.put(
@@ -140,9 +164,7 @@ const UpdateBlog = () => {
         toast.success(res.data.message);
         navigate("/dashboard/your-blog");
       }
-      // console.log(res.data.message);
     } catch (error) {
-      // console.log(error);
       toast.error("something went error");
     }
   };
@@ -159,7 +181,7 @@ const UpdateBlog = () => {
             <Button
               onClick={() =>
                 togglePublishUnpublish(
-                  selectBlog.isPublished ? "false" : "true"
+                  selectBlog?.isPublished ? "false" : "true"
                 )
               }
             >
@@ -204,6 +226,7 @@ const UpdateBlog = () => {
             <Label className='pb-1'>Category</Label>
             <Select
               onValueChange={selectCategory}
+              value={isCustomCategory ? "Custom" : blogData.category}
               className="dark:border-gray-300"
             >
               <SelectTrigger className="w-[180px]">
@@ -219,11 +242,26 @@ const UpdateBlog = () => {
                     Digital Marketing
                   </SelectItem>
                   <SelectItem value="Blogging">Blogging</SelectItem>
-                  <SelectItem value="Photgraphy">Photgraphy</SelectItem>
+                  <SelectItem value="Photography">Photography</SelectItem>
                   <SelectItem value="Cooking">Cooking</SelectItem>
+                  <SelectItem value="Custom">Other</SelectItem>
                 </SelectGroup>
               </SelectContent>
             </Select>
+
+            {isCustomCategory && (
+              <div className="mt-2">
+                 <Label className='pb-1'>Custom Category Name</Label>
+                 <Input
+                  type="text"
+                  placeholder="Enter custom category"
+                  name="category"
+                  value={blogData.category}
+                  onChange={handleChange}
+                  className="dark:border-gray-300"
+                />
+              </div>
+            )}
           </div>
           <div>
             <Label className='pb-1'>Thumbnail</Label>
